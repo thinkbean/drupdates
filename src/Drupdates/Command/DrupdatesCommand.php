@@ -34,9 +34,7 @@ class DrupdatesCommand extends Command
 
         foreach ($config['aliases'] as $alias) {
 
-            $output->writeln(' ');
             $output->writeln($alias);
-
             try {
                 $updates = DrupalUtil::GetUpdates($alias, true);
 
