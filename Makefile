@@ -9,3 +9,6 @@ clean:
 
 run:
 	bin/drupdates.php
+
+uninstall:
+	rm /usr/local/bin/drupdates
