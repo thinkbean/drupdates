@@ -5,7 +5,9 @@ namespace Drupdates\Command;
 use Drupdates\Util\DrupalUtil;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -16,8 +18,12 @@ class DrupdatesCommand extends Command
         $this
             ->setName('drupal:updates')
             ->setDescription('Retrieves available updates for the configured aliases.')
+            ->addOption('security-only', null, InputOption::VALUE_NONE, 'Limit results to security updates only.')
+            ->addOption('aliases', null, InputOption::VALUE_OPTIONAL, 'Use a comma separate list of aliases instead of config.')
+            ->addOption('format', null, InputOption::VALUE_OPTIONAL, 'Format results. Supported formats: json')
         ;
     }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $this->getConfigFilePath();
@@ -38,11 +44,18 @@ class DrupdatesCommand extends Command
             exit(1);
         }
 
+        $aliases = $input->getOption('aliases');
+        if (isset($aliases)) {
+            $config['aliases'] = explode(',', $aliases);
+        }
+
+        $securityOnly = $input->getOption('security-only');
+
         foreach ($config['aliases'] as $alias) {
 
             $output->writeln($alias);
             try {
-                $updates = DrupalUtil::GetUpdates($alias, true);
+                $updates = DrupalUtil::GetUpdates($alias, $securityOnly);
 
             } catch(ProcessFailedException $e) {
                 $output->writeln('  <error>'.$e->getMessage().'</error>');
@@ -63,15 +76,15 @@ class DrupdatesCommand extends Command
 
             foreach ($updates as $module) {
                 $rows[] = [
-                    $module['name'].'</error>',
-                    '<error> '.$module['existing_version'].' </error> ',
+                    $module['name'],
+                    $module['security'] ? '<error> '.$module['existing'].' </error> ' : '<info> '.$module['existing'].' </info> ',
                     '<question> '.$module['recommended'].' </question> ',
-                    $module['latest_version']
+                    $module['latest']
                 ];
             }
 
             $table->setRows($rows);
-            $table->setColumnWidths(array(35, 15, 15, 15));
+            $table->setColumnWidths(array(30, 20, 20, 20));
             $table->render();
         }
     }

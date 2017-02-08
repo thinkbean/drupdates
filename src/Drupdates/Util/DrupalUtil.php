@@ -32,9 +32,10 @@ class DrupalUtil
         foreach ($data as $module) {
             $updates[] = [
                 'name' => $module['name'],
-                'existing' => $module['existing_version'],
-                'recommended' => $module['recommended'],
-                'latest' => $module['latest_version']
+                'existing' => isset($module['existing_version']) ? $module['existing_version'] : '',
+                'recommended' => isset($module['recommended']) ? $module['recommended'] : '',
+                'latest' => isset($module['latest_version']) ? $module['latest_version'] : '',
+                'security' => isset($module['security updates']) && count($module['security updates']) > 0
             ];
         }
 
