@@ -26,7 +26,7 @@ drupdates --security-only
 drupdates --aliases=site1.prod,site2.prod
 
 # Retrieve all security updates with output formatted in json
-drupdates --format=json
+drupdates --security-only --format=json
 ```
 
 ## Config
