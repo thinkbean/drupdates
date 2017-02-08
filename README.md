@@ -3,6 +3,13 @@
 An executable which reports available Drupal security updates for a list of 
 configured sites.
 
+![drupdates](images/drupdates.png?raw=true "drupdates console example")
+
+It's just a wrapper around `drush pm-updatestatus`, the objective
+ being to gather update info on a group of sites you maintain updates for.
+ 
+You can specify the output to be `json` for use with other tools.
+
 [Drush](https://github.com/drush-ops/drush) is required to be installed on the
 system and an alias defined for each site to be reported on.
 
