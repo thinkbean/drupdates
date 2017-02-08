@@ -23,6 +23,21 @@ the system `drupdates` is being used on.
 }
 ```
 
+## Run the Executable
+
+You'll either need to download, or build/install, but once the `drupdates` executable
+is available, simply run it.
+
+```
+drupdates
+```
+
+You can also run it from source.
+
+```
+make run
+```
+
 ## Build and Install
 
 If you are building the phar file, you will need [Box](https://github.com/box-project/box2)
