@@ -49,6 +49,7 @@ Once installed, you can run the following commands to build and install the
 `drupdates` executable.
 
 ```
+composer install
 make build
 make install
 make clean
