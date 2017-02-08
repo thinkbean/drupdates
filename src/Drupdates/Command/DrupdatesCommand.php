@@ -64,13 +64,13 @@ class DrupdatesCommand extends Command
 
         $securityOnly = $input->getOption('security-only');
         $format = $input->getOption('format') === 'json' ? 'json' : null;
-        $jsonOutput = [];
+        $data = [];
 
         foreach ($config['aliases'] as $alias) {
             if ($format === 'json') {
-                $jsonOutput[$alias] = [];
+                $data[$alias] = [];
             } else {
-                $output->writeln($alias);
+                $output->writeln('<info>'.$alias.'</info>');
             }
 
             try {
@@ -86,7 +86,7 @@ class DrupdatesCommand extends Command
 
             if (!is_array($updates) || count($updates) === 0) {
                 if ($format !== 'json') {
-                    $output->writeln('  <info> No updates available. </info>');
+                    $output->writeln('  No updates available.');
                 }
                 continue;
             }
@@ -104,7 +104,7 @@ class DrupdatesCommand extends Command
 
             foreach ($updates as $module) {
                 if ($format === 'json') {
-                    $jsonOutput[$alias][] = $module;
+                    $data[$alias][] = $module;
                 } else {
                     $rows[] = [
                         $module['name'],
@@ -123,7 +123,7 @@ class DrupdatesCommand extends Command
         }
 
         if ($format === 'json') {
-            $output->write(json_encode($jsonOutput));
+            $output->write(json_encode($data));
         }
     }
 
