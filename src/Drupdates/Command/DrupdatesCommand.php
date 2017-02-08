@@ -127,13 +127,23 @@ class DrupdatesCommand extends Command
         }
     }
 
+    private function getConfigDir()
+    {
+       return getenv('HOME').'/.thinkbean/';
+    }
+
     private function getConfigFilePath()
     {
-        return getenv('HOME').'/.thinkbean/drupdates.json';
+        return $this->getConfigDir().'/drupdates.json';
     }
 
     private function initializeConfig()
     {
+        $configDir = $this->getConfigDir();
+        if (!file_exists($configDir)) {
+            mkdir($configDir);
+        }
+
         $str =<<<EOF
 {
   "aliases": [
