@@ -6,3 +6,6 @@ install:
 
 clean:
 	rm dist/drupdates.phar
+
+run:
+	bin/drupdates.php
