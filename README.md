@@ -63,16 +63,21 @@ installed on your system.
 
 Test is box is installed properly by running `box --version`.
 
-Once installed, you can run the following commands to build and install the
+Once box is installed, you can run the following commands to build and install the
 `drupdates` executable.
 
 ```
+# Instsalled the project requirements
 composer install
+
+# Creates dist/drupdates.phar
 make build
+
+# Copies dist/drupdates.phar to /usr/local/bin/drupdates
 make install
+
+# Deletes dist/drupdates.phar
 make clean
 ```
-
-This should create the `phar` file and copy it to `/usr/local/bin/drupdates`.
 
 You can test if drupdates is installed properly by running `drupdates --version`.
