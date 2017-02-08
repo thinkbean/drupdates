@@ -6,13 +6,31 @@ configured sites.
 [Drush](https://github.com/drush-ops/drush) is required to be installed on the
 system and an alias defined for each site to be reported on.
 
+## Usage
+
+```
+# Retrieve all updates for all aliases configured.
+drupdates
+
+# Retrieve security updates for all aliases configured.
+drupdates --security-only
+
+# Retrieve all updates for only aliases site1.prod and site2.prod
+drupdates --aliases=site1.prod,site2.prod
+
+# Retrieve all security updates with output formatted in json
+drupdates --format=json
+```
+
 ## Config
 
-Create the following file to define which sites should be checked for updates
-when the command is run. The aliases array should be valid drush aliases on 
-the system `drupdates` is being used on.
+The first time you run `drupdates`, a config file will be created at
+`~/.thinkbean/drupdates.json`.
 
-`~/.thinkbean/drupdates.json`
+You will need to update the aliases array to a list of valid drush aliases
+available to the system running the command.
+
+Here is an example configuration:
 ```
 {
   "aliases": [
