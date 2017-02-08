@@ -60,6 +60,9 @@ drupdates
 You can also run it from source.
 
 ```
+git clone git@github.com:thinkbean/drupdates.git
+cd drupdates
+composer install
 make run
 ```
 
