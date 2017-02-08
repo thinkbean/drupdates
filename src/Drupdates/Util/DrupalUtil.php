@@ -41,4 +41,31 @@ class DrupalUtil
 
         return $updates;
     }
+
+    public static function GetAvailableAliases()
+    {
+        $process = new Process('drush sa --format=json');
+        try {
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        $stdout = $process->getOutput();
+        $data = json_decode($stdout, TRUE);
+
+        $aliases = [];
+        if (is_array($data)) {
+            $items = array_keys($data);
+            foreach ($items as $item) {
+                $aliases[] = substr($item, 1);
+            }
+        }
+
+        return $aliases;
+    }
 }

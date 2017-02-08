@@ -39,21 +39,40 @@ class DrupdatesCommand extends Command
         }
 
         $config = json_decode(file_get_contents($file), true);
-        if (!isset($config['aliases']) || count($config['aliases']) === 0) {
-            echo ' Config does not contain any aliases.' . PHP_EOL;
-            exit(1);
-        }
 
+        // Use alias options if passed in
         $aliases = $input->getOption('aliases');
         if (isset($aliases)) {
             $config['aliases'] = explode(',', $aliases);
         }
 
+        // Fail if no aliases were passed in or defined in config.
+        if (!isset($config['aliases']) || count($config['aliases']) === 0) {
+            echo ' Config does not contain any aliases.' . PHP_EOL;
+            $output->writeln('<error>Config does not contain any aliases.</error>');
+            exit(1);
+        }
+
+        // Test all alises exist
+        $availableAliases = DrupalUtil::GetAvailableAliases();
+        foreach ($config['aliases'] as $alias) {
+            if (!in_array($alias, $availableAliases)) {
+                $output->writeln('<error>Alias not available: '.$alias.'</error>');
+                exit(1);
+            }
+        }
+
         $securityOnly = $input->getOption('security-only');
+        $format = $input->getOption('format') === 'json' ? 'json' : null;
+        $jsonOutput = [];
 
         foreach ($config['aliases'] as $alias) {
+            if ($format === 'json') {
+                $jsonOutput[$alias] = [];
+            } else {
+                $output->writeln($alias);
+            }
 
-            $output->writeln($alias);
             try {
                 $updates = DrupalUtil::GetUpdates($alias, $securityOnly);
 
@@ -66,26 +85,45 @@ class DrupdatesCommand extends Command
             }
 
             if (!is_array($updates) || count($updates) === 0) {
-                $output->writeln('  <info> No updates available. </info>');
+                if ($format !== 'json') {
+                    $output->writeln('  <info> No updates available. </info>');
+                }
                 continue;
             }
 
-            $table = new Table($output);
-            $table->setHeaders(['Module', 'Current', 'Recommended', 'Latest']);
             $rows = [];
-
-            foreach ($updates as $module) {
-                $rows[] = [
-                    $module['name'],
-                    $module['security'] ? '<error> '.$module['existing'].' </error> ' : '<info> '.$module['existing'].' </info> ',
-                    '<question> '.$module['recommended'].' </question> ',
-                    $module['latest']
-                ];
+            if ($format !== 'json') {
+                $table = new Table($output);
+                $table->setHeaders([
+                    'Module',
+                    'Current',
+                    'Recommended',
+                    'Latest'
+                ]);
             }
 
-            $table->setRows($rows);
-            $table->setColumnWidths(array(30, 20, 20, 20));
-            $table->render();
+            foreach ($updates as $module) {
+                if ($format === 'json') {
+                    $jsonOutput[$alias][] = $module;
+                } else {
+                    $rows[] = [
+                        $module['name'],
+                        $module['security'] ? '<error> ' . $module['existing'] . ' </error> ' : '<info> ' . $module['existing'] . ' </info> ',
+                        '<question> ' . $module['recommended'] . ' </question> ',
+                        $module['latest']
+                    ];
+                }
+            }
+
+            if ($format !== 'json') {
+                $table->setRows($rows);
+                $table->setColumnWidths([30, 20, 20, 20]);
+                $table->render();
+            }
+        }
+
+        if ($format === 'json') {
+            $output->write(json_encode($jsonOutput));
         }
     }
 
