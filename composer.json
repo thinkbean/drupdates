@@ -1,0 +1,24 @@
+{
+    "name": "thinkbean/drupdates",
+    "description": "Reports updates available for a group of sites.",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "symfony/console": "^3.2",
+        "symfony/process": "^3.2"
+    },
+    "require-dev": {
+        "symfony/console": "^3.2"
+    },
+    "bin": ["bin/drupal"],
+    "config": {
+        "bin-dir": "bin/"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": false,
+    "autoload": {
+        "psr-4": {
+            "Drupdates\\": "src/Drupdates"
+        }
+    }
+}

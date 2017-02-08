@@ -1,0 +1,15 @@
+{
+    "chmod": "0755",
+    "compression": "GZ",
+    "directories": ["src"],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": ["Tests"],
+            "in": "vendor"
+        }
+    ],
+    "main": "bin/drupdates.php",
+    "output": "dist/drupdates.phar",
+    "stub": true
+}
