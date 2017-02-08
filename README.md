@@ -6,7 +6,7 @@ configured sites.
 ![drupdates](images/drupdates.png?raw=true "drupdates console example")
 
 It's just a wrapper around `drush pm-updatestatus`, the objective
- being to gather update info on a group of sites you maintain.
+ being to gather update info on a group of sites you maintain with a single command.
  
 You can specify the output to be `json` for use with other tools.
 
