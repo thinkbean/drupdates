@@ -77,9 +77,6 @@ Once box is installed, you can run the following commands to build and install t
 `drupdates` executable.
 
 ```
-# Instsalled the project requirements
-composer install
-
 # Creates dist/drupdates.phar
 make build
 
