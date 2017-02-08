@@ -20,9 +20,15 @@ class DrupdatesCommand extends Command
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $file = getenv("HOME").'/.thinkbean/drupdates.json';
+        $file = $this->getConfigFilePath();
         if (!file_exists($file)) {
-            echo ' Config file does not exist: `'.$file.'`' . PHP_EOL;
+            $this->initializeConfig();
+
+            $output->writeln('');
+            $output->writeln('  Your config file has been initialized.');
+            $output->writeln('  Please update the aliases array in the file below.');
+            $output->writeln('  <info>'.$file.'</info>');
+            $output->writeln('');
             exit(1);
         }
 
@@ -68,5 +74,23 @@ class DrupdatesCommand extends Command
             $table->setColumnWidths(array(35, 15, 15, 15));
             $table->render();
         }
+    }
+
+    private function getConfigFilePath()
+    {
+        return getenv('HOME').'/.thinkbean/drupdates.json';
+    }
+
+    private function initializeConfig()
+    {
+        $str =<<<EOF
+{
+  "aliases": [
+    "example.alias"
+  ]
+}
+EOF;
+        $file = $this->getConfigFilePath();
+        file_put_contents($file, $str);
     }
 }
