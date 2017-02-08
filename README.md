@@ -1,12 +1,12 @@
 # Drupdates
 
-An executable which reports available Drupal security updates for a list of 
+An executable which reports available Drupal updates for a list of 
 configured sites.
 
 ![drupdates](images/drupdates.png?raw=true "drupdates console example")
 
 It's just a wrapper around `drush pm-updatestatus`, the objective
- being to gather update info on a group of sites you maintain updates for.
+ being to gather update info on a group of sites you maintain.
  
 You can specify the output to be `json` for use with other tools.
 
