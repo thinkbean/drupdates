@@ -18,6 +18,7 @@ system and an alias defined for each site to be reported on.
 On OSX you can install drupdates with the following commands.
 ```
 curl -O https://github.com/thinkbean/drupdates/releases/download/0.0.1/drupdates.phar
+chmod +x drupdates.phar
 mv drupdates.phar /usr/local/bin/drupdates
 ```
 If you run into permission issues, the second command may need to be run with `sudo`.
