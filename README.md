@@ -13,6 +13,15 @@ You can specify the output to be `json` for use with other tools.
 [Drush](https://github.com/drush-ops/drush) is required to be installed on the
 system and an alias defined for each site to be reported on.
 
+## Installation
+
+On OSX you can install drupdates with the following commands.
+```
+curl -O https://github.com/thinkbean/drupdates/releases/download/0.0.1/drupdates.phar
+mv drupdates.phar /usr/local/bin/drupdates
+```
+If you run into permission issues, the second command may need to be run with `sudo`.
+
 ## Usage
 
 ```
