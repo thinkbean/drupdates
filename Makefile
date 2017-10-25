@@ -8,7 +8,7 @@ clean:
 	rm dist/drupdates.phar
 
 run:
-	bin/drupdates.php
+	bin/drupdates.php ${ARGS}
 
 uninstall:
 	rm /usr/local/bin/drupdates
